@@ -24,7 +24,7 @@ world <- st_transform(world, crs = "+proj=longlat +datum=WGS84 +lon_wrap=180")
 
 # Plot and save the broad-scale map
 
-png(filename = "All_samples_map.png", width = 30, height = 10, units = 'cm', res = 400)
+png(filename = "Figure_name_here.png", width = 30, height = 10, units = 'cm', res = 400)
 
 
 map <- ggplot(data = world) +
