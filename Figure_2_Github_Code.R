@@ -20,7 +20,7 @@ biplot_allSC$Group <- factor(biplot_allSC$Group, levels = c("AUS_B", "FIS_S", "N
                                                       "NZ_B_2"))
 
 #plot and save biplot
-png("All_FKW_SCdata_biplot_new.png", units = "in", width = 10, height = 8, res = 300 )
+png("Figure_name_here", units = "in", width = 10, height = 8, res = 300 )
 
 biplot_allSC_new <- ggplot(data = biplot_allSC)+
   geom_point(mapping = aes(x = d_13C, 
