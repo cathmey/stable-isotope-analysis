@@ -1,5 +1,5 @@
 #set working directory
-setwd("file_location_here")
+setwd("file/location/here")
 
 #load libraries
 library(ggplot2)
