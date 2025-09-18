@@ -1,5 +1,5 @@
 #this code produces plots of carbon and nitrogen values for putative prey species, with standard deviation 
-#isotope values extracted from: Rosas-Luis et al.,(2016); Handley (2017); Kellett (2021); Rayner et al.,(2021); Hinton (2023).
+#isotope values of prey species extracted from: Rosas-Luis et al.,(2016); Handley (2017); Kellett (2021); Rayner et al.,(2021); Hinton (2023).
 
 #set working directory
 setwd("file/location/here")
