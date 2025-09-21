@@ -188,7 +188,7 @@ require(ggplot2)
 x11()
 ggplot()+
   geom_density(data = post,
-               aes(x = dif_sds))
+               aes(x = diff_sds))
 
 
 # Probabilities of proportions:
