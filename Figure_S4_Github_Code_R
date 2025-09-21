@@ -1,8 +1,8 @@
-#Generate graphs for 
-#Author: Liam Brennan, WHET Lab, OSU, 
+#This code is used to generate figures of pairwise comparisons of group means (28 total) for each isotope based on Bayesian ANOVA results
+#Author: Liam Brennan, WHET Lab, OSU
 #Created: 13 FEB 2024
+#Edited by G. Busquets-Vass and C. E. Meyer for for false killer whale stable isotope Bayesian ANOVA results
 #Updated: SEPT 2025
-#Adjusted by G. Busquets-Vass and C. E. Meyer for false killer whale stable isotope Bayesian ANOVA analysis results 
 
 #### CLEAN EVERYTHING ###
 rm(list=ls())
