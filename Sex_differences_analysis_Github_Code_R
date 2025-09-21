@@ -1,0 +1,149 @@
+#This code is used to run Bayesian analysis for sex differences within each isotope system by sample partition 
+#Code adapted for this analysis by G. Busquets-Vass and C. E. Meyer based on Kéry (2010), Introduction to WinBUGS for Ecologists: Bayesian Approach to Regression, ANOVA, mixed models and related analyses. 
+#The code is in JAGS language 
+
+#Additional instructions for using this code to run analyses: 
+#1. replace instances of "isotope" below with the appropriate label (e.g., isotope, nitrogen)
+#2. replace instances of "dXisotope" below with the appropriate label (e.g,. d13C, d15N) 
+#3. isotope and nitrogen systems must be analysed separately, so these should be uploaded as different .csv files
+#4. this analysis was run only for those sample partitions with sample size N>10 
+
+#### CLEAN EVERYTHING ###
+rm(list=ls())
+graphics.off() # close all
+gc() # Clear memory 
+
+#Install packages required for model 
+
+install.packages("mcmcplots")
+install.packages("R2jags")
+
+#set working directory 
+setwd ("your/directory/here") 
+
+# read data file
+ClassBulk <- read.csv("your_filename_here.csv")
+
+# Factors
+
+ClassBulk$Class <- as.factor(ClassBulk$Class)  #convert classes to factors 
+levels(ClassBulk$Class)
+
+
+# Change levels order (M = male, F = female)
+
+ClassBulk$Class <- factor(ClassBulk$Class,
+                          levels = c("1_M",
+                                     "2_F"))
+
+
+#### Text file to save the model: 
+sink("model_mean_isotopeBulk1.txt")
+
+#model starts here - cat = concatonate and print results 
+#dunif = uninformed priors used here 
+
+cat("model {
+
+     # Likelihood:
+     for (i in 1:n_isotope) {
+        N[i] ~ dnorm(mu_isotope[Class[i]], 
+        1/pow(sd_isotope[group[i]], 2))
+     }
+
+     # Priors:
+     for (j in 1:n_Class) {
+       mu_isotope[j] ~ dunif(min_mu_isotope, max_mu_isotope)
+     }
+     for (k in 1:n_group) {
+       sd_isotope[k] ~ dunif(min_sd_isotope, max_sd_isotope)
+     }
+      
+   # Derived quantities (differences between each group):
+     
+     diff_sds <- sd_isotope[1] - sd_isotope[2]
+     diff_1M_2F <- mu_isotope[1] - mu_isotope[2]
+
+ }",
+    fill=TRUE)
+
+sink() # end of JAGS model
+
+data_list <- list(
+  n_isotope = length(ClassBulk$dXisotope),
+  N = ClassBulk$dXisotope,
+  Class = ClassBulk$Class,
+  n_Class = length(unique(ClassBulk$Class)),
+  
+  group = ClassBulk$Class,
+  n_group = length(unique(ClassBulk$Class)),
+  
+  min_mu_isotope = -25,      #these max and mins are different depending on the isotope you are using - set appropriate limits 
+  max_mu_isotope = -10,
+  
+  min_sd_isotope = 0,
+  max_sd_isotope = 12
+)
+
+
+monitor <- c("mu_isotope",
+             "sd_isotope",
+             "diff_sds", 
+             "diff_1M_2F")
+
+
+# MCMC control 
+n.chains <- 5 
+n.iter <- 1000000
+n.burnin <- 200000
+n.thin <- 50    #how many values the model keeps (1 in 50) to avoid autocorrelation 
+
+# Run analysis:
+require(R2jags)
+
+out <- jags(data = data_list,
+            # inits = inits.list,
+            parameters.to.save = monitor,
+            model.file = "model_mean_isotopeBulk1.txt",
+            n.chains = n.chains,
+            n.thin = n.thin,
+            n.iter = n.iter,
+            n.burnin = n.burnin,
+            DIC = T)
+
+#### MODEL RESULTS ###
+# Summarize posteriors and statistics:
+WhaleID_summary_isotope <- print(out, dig=3) # number of decimals for the output.
+
+# Extract MCMC list: 
+mcmc_list <- as.mcmc(out) # For JAGS
+require(mcmcplots)
+# Libraries for diagnostics:
+require(ggmcmc)  # For MCMC diagnostics
+require(coda)    # For MCMC analysis
+require(lattice) # For quick posterior ploting and diagnostics
+
+
+# Dataframe of posteriors:
+post <- as.data.frame(out$BUGSoutput$sims.matrix)
+
+require(ggplot2)
+x11()
+ggplot()+
+  geom_density(data = post,
+               aes(x = diff_sds))
+
+
+# Probabilities of proportions:
+#sd:
+
+index_posit <- which(post$diff_sds > 0)
+prop_posit <- 100*(length(index_posit)/nrow(post))
+
+
+# 1 mus diff_1M_2F
+
+index_posit_1M_2F <- which(post$diff_1M_2F > 0)
+index_negat_1M_2F <- which(post$diff_1M_2F < 0)
+Pos_diff_1M_2F <- 100*(length(index_posit_1M_2F)/nrow(post))
+Neg_diff_1M_2F <- 100*(length(index_negat_1M_2F)/nrow(post))
