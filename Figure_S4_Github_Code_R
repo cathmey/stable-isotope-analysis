@@ -4,25 +4,23 @@
 #Edited by G. Busquets-Vass and C. E. Meyer for for false killer whale stable isotope Bayesian ANOVA results
 #Updated: SEPT 2025
 
-#### CLEAN EVERYTHING ###
+### CLEAN EVERYTHING ###
 rm(list=ls())
 graphics.off() # close all 
 gc() # Clear memory 
 
-# Load Packages required 
+#Load Packages required 
 library(tidyverse)
 library(ggplot2)
 library(RColorBrewer)
 
-# #set working directory 
+#set working directory 
 setwd ("your/directory/path_here")
 
 #import N data 
-
 N_data <- read.csv("N_filename_here.csv")
 
 #order the comparisons
-
 N_data$Parameter <- factor(N_data$Parameter, levels = c("FIS_M - FIS_F",
                                                         "NZSM_M - NZSM_F",
                                                         "NZB1E_M - NZB1E_F",
@@ -30,7 +28,6 @@ N_data$Parameter <- factor(N_data$Parameter, levels = c("FIS_M - FIS_F",
                                                         "NZB2_M - NZB2_F"))
 
 #define colour palette for each pairwise comparison 
-
 colors <- c("FIS_M - FIS_F" = "#d5c711",
             "NZSM_M - NZSM_F" = "#00fff2",
             "NZB1E_M - NZB1E_F" = "#bfe895",
@@ -39,7 +36,6 @@ colors <- c("FIS_M - FIS_F" = "#d5c711",
 
 
 #plot the N data 
-
 png(filename = "N_figure_here.png", width = 30, height = 30, units = 'cm', res = 400) #save a plot
 
 plotN <- ggplot(N_data, aes(x = Parameter, y = Mean, fill = Parameter, color = Parameter)) +
@@ -61,13 +57,10 @@ plotN
 
 dev.off()
 
-
 #import C data 
-
 C_data <- read.csv("C_filename_here.csv")
 
 #order the comparisons
-
 C_data$Parameter <- factor(C_data$Parameter, levels = c("FIS_M - FIS_F",
                                                         "NZSM_M - NZSM_F",
                                                         "NZB1E_M - NZB1E_F",
@@ -77,7 +70,6 @@ C_data$Parameter <- factor(C_data$Parameter, levels = c("FIS_M - FIS_F",
 #use same colours as above ("colors")
 
 #plot the C data 
-
 png(filename = "C_figure_here.png", width = 30, height = 30, units = 'cm', res = 400) #save a plot
 
 plotC <- ggplot(C_data, aes(x = Parameter, y = Mean, fill = Parameter, color = Parameter)) +
@@ -101,7 +93,6 @@ dev.off()
 #knit the above two graphs together and remove one x-axis
 
 library(ggpubr)
-
 png(filename = "combined_plot_here.png", width = 30, height = 30, units = 'cm', res = 400) #save a plot
 
 combined <- ggarrange(plotN, plotC, labels = c("A", "B"), ncol = 1, nrow = 2)
