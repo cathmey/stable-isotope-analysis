@@ -94,11 +94,9 @@ plotC <- ggplot(C_data, aes(x = Parameter, y = Mean, fill = Parameter, color = P
         panel.grid.minor = element_blank(),
         panel.grid.major = element_blank())
 
-
 plotC
 
 dev.off()
-
 
 #knit the above two graphs together and remove one x-axis
 
