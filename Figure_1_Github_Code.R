@@ -30,7 +30,7 @@ png(filename = "Figure_name_here.png", width = 30, height = 10, units = 'cm', re
 map <- ggplot(data = world) +
   geom_sf(fill = "gray70", color = "gray70")+
   geom_point(data = samples, aes(x = Long, y = Lat, shape = Type, fill = Location), size = 3.5, color = "black", stroke = 0.7) + # Filled points with black outline
-  scale_fill_manual(values = c("AUS_B" = "#cc0044", "FIS_S" = "#F0E442", "NZ_S_Mixed" = "blue" , "NZ_S_Rekohu" = "#004151", "NZ_S_Mahia" = "#00ccff", "NZ_B_1_early" = "#8FD744", "NZ_B_1_late" = "#00ff66","NZ_B_2" = "#006600"), guide = "none")+  #specify colours and remove legend for locations 
+  scale_fill_manual(values = c("AUS_B" = "#cc0044", "FIS_S" = "#F0E442", "NZ_S_Mixed" = "#6A89A7" , "NZ_S_Rekohu" = "#004151", "NZ_S_Mahia" = "#00ccff", "NZ_B_1_early" = "#8FD744", "NZ_B_1_late" = "#00ff66","NZ_B_2" = "#006600"), guide = "none")+  #specify colours and remove legend for locations 
   scale_shape_manual(labels = c("Biopsy", "Stranding"), values = c(21, 24)) +
   theme_minimal() + # # Change theme to allow axis lines and tick marks
   annotation_north_arrow(location = "tr", which_north = "true", style = north_arrow_orienteering(line_width = 0.5, text_size= 9)) +
@@ -69,7 +69,7 @@ png(filename = "NZ_samples_map_test.png", width = 35, height = 25, units = 'cm',
 mapNZ <- ggplot(data = world) +
   geom_sf(fill = "gray70", color = "gray70") + # Set background to solid gray with no lines
   geom_point(data = samples_NZ, aes(x = Long, y = Lat, shape = Type, fill = Group), size = 8, color = "black", stroke = 1) + # Filled points with black outline
-  scale_fill_manual(values = c("NZ_S_Mixed" = "blue" , "NZ_S_Rekohu" = "#004151", "NZ_S_Mahia" = "#00ccff", "NZ_B_1_early" = "#8FD744", "NZ_B_1_late" = "#00ff66","NZ_B_2" = "#006600"), guide = "none")+  #specify colours and remove legend for locations 
+  scale_fill_manual(values = c("NZ_S_Mixed" = "#6A89A7" , "NZ_S_Rekohu" = "#004151", "NZ_S_Mahia" = "#00ccff", "NZ_B_1_early" = "#8FD744", "NZ_B_1_late" = "#00ff66","NZ_B_2" = "#006600"), guide = "none")+  #specify colours and remove legend for locations 
   scale_shape_manual(labels = c("Biopsy", "Stranding"), values = c(21, 24), guide = "none") +
   theme_minimal() + # # Change theme to allow axis lines and tick marks
   annotation_north_arrow(height = unit (2, "cm"), width = unit (2, "cm"),location = "tr", which_north = "true", style = north_arrow_orienteering(line_width = 0.5, text_size= 14)) +
