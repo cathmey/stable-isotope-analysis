@@ -35,7 +35,7 @@ biplot_allSC_new <- ggplot(data = biplot_allSC)+
                                          linewidth = 0.2, linetype="solid"))+
   scale_color_manual(name = "Sample Partition", labels = c( "AUS_B", "FIS_S", "NZ_S_Mixed", "NZ_S_Rēkohu", "NZ_S_Māhia", "NZ_B_1_Early", "NZ_B_1_Late",
                                                             "NZ_B_2"), 
-                     values = c( "#cc0044","#F0E442","#0072B2","#004151","#00ccff","#8FD744FF","#00ff66","#006600"))+ # Customise colors here
+                     values = c( "#cc0044","#F0E442","#6A89A7","#004151","#00ccff","#8FD744FF","#00ff66","#006600"))+ # Customise colors here
   theme_minimal() +
   coord_cartesian(xlim =c(-19, -13), ylim = c(10, 18))+
   theme_classic()+
